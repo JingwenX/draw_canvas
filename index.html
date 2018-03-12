@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="static.css">
+</head>
+<body>
+    <canvas id="canvas" width="500" height="300"></canvas>
+    <script src="../jquery-easyui-1.5.4.2/jquery.min.js"></script>
+    <script src="../jquery-easyui-1.5.4.2/jquery.easyui.min.js"></script>
+
+    <script src="../node_modules/fabric/dist/fabric.js"></script>
+    <script>
+        var canvas = new fabric.Canvas('canvas');
+
+        var rect = new fabric.Rect({
+            top : 100,
+            left : 100,
+            width : 60,
+            height : 70,
+            fill : 'grey',
+        });
+        canvas.add(rect);
+        
+        
+    </script>
+
+    <ul class='static_shapes'>
+        <li>
+            <a href="#" class="item">
+            <div id="drag-me" draggable="true"></div>
+            </a>
+        </li>
+    </ul>
+    <script>
+        // define draggable
+            
+            $('.item').draggable({
+                revert:true,
+                proxy:'clone',
+                onStartDrag:function(){
+                    $(this).draggable('options').cursor = 'not-allowed';
+                    $(this).draggable('proxy').css('z-index',10);
+                },
+                onStopDrag:function(e, ui){
+                    $(this).draggable('options').cursor='move';
+                    console.log(e);
+                    var rect = new fabric.Rect({
+                        top : e.clientY,
+                        left : e.clientX,
+                        width : 60,
+                        height : 70,
+                        fill : 'grey',
+                    });
+                    canvas.add(rect);
+                },
+            });
+
+            //define droppable
+            $('canvas.upper-canvas').droppable({
+                onDragEnter:function(e,source){
+                    $(source).draggable('options').cursor='auto';
+                },
+                onDragLeave:function(e,source){
+                    $(source).draggable('options').cursor='not-allowed';
+                },
+                onDrop:function(e,source){
+
+
+                },
+
+            });
+
+        
+</script>
+</body>
+</html>
